@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <h3>污染城市列表</h3>
+  <ul id="aqi-list">
+    <!--   
+    <li>第一名：福州（样例），10</li>
+      <li>第二名：福州（样例），10</li> -->
+  </ul>
+
+  <script type="text/javascript">
+
+    var aqiData = [
+      ["北京", 90],
+      ["上海", 50],
+      ["福州", 10],
+      ["广州", 50],
+      ["成都", 90],
+      ["西安", 100]
+    ];
+
+    (function () {
+
+      /*
+      在注释下方编写代码
+      遍历读取aqiData中各个城市的数据
+      将空气质量指数大于60的城市显示到aqi-list的列表中
+      */
+      var ary = [];
+      function selectCity() {
+        for (var i = 0; i < aqiData.length; i++) {
+          if (aqiData[i][1] > 60) {//筛选出指数大于60的数组元素，并把对应的城市名保存在另外一个数组
+            ary.push(aqiData[i][0]);
+          }
+        }
+      }
+
+      function insertLi() {
+        for (var i = 0; i < ary.length; i++) {
+          var para = document.createElement("li");//创建元素li
+          var node = document.createTextNode(ary[i]);//创建元素的text子节点（即元素内文本）
+          para.appendChild(node);//向元素追加textNode
+          document.getElementById("aqi-list").appendChild(para);//向ul中插入li子元素，text为筛选出的数组的所有元素
+        }
+      }
+      selectCity();
+      insertLi();
+
+    })();
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <ul id="source">
+    <li>北京空气质量：
+      <b>90</b>
+    </li>
+    <li>上海空气质量：
+      <b>70</b>
+    </li>
+    <li>天津空气质量：
+      <b>80</b>
+    </li>
+    <li>广州空气质量：
+      <b>50</b>
+    </li>
+    <li>深圳空气质量：
+      <b>40</b>
+    </li>
+    <li>福州空气质量：
+      <b>32</b>
+    </li>
+    <li>成都空气质量：
+      <b>90</b>
+    </li>
+  </ul>
+
+  <ul id="resort">
+    <!-- 
+    <li>第一名：北京空气质量：<b>90</b></li>
+    <li>第二名：北京空气质量：<b>90</b></li>
+    <li>第三名：北京空气质量：<b>90</b></li>
+     -->
+
+  </ul>
+
+  <button id="sort-btn">排序</button>
+
+  <script type="text/javascript">
+
+    /**
+     * getData方法
+     * 读取id为source的列表，获取其中城市名字及城市对应的空气质量
+     * 返回一个数组，格式见函数中示例
+     */
+    function getData() {
+      /*
+      coding here
+      */
+
+      /*
+      data = [
+        ["北京", 90],
+        ["北京", 90]
+        ……
+      ]
+      */
+      var data = [];
+      var city;
+      var cityData;
+      var ul = document.getElementById("source");
+      var lis = ul.getElementsByTagName("li");
+
+      for (var i = 0; i < lis.length; i++) {
+        var child = lis[i].childNodes;
+        for (var j = 0; j < child.length; j++) {
+
+          if (child[j].nodeType == 3) {
+            if (/^\s+/.test(child[j].nodeValue)) { }
+            else {
+              var text = child[j].nodeValue;
+              city = text.split("空气质量")[0];
+            }
+
+          }
+          else if (child[j].nodeType == 1) {
+            cityData = Number(child[j].innerHTML);
+          }
+        }
+        var dataItem = [];
+        dataItem.push(city);
+        dataItem.push(cityData);
+        data.push(dataItem);
+      }
+      return data;
+
+    }
+
+    /**
+     * sortAqiData
+     * 按空气质量对data进行从小到大的排序
+     * 返回一个排序后的数组
+     */
+    function sortAqiData(data) {
+      //compare(a,b)定义排序条件，为比较数组每个子数组的第二项大小进行升序
+      function compare(a, b) {
+        if (a[1] > b[1]) {
+          return 1; //sort()中参数大于0，交换a b顺序，升序排列
+        } else if (a[1] < b[1]) {
+          return -1;  //sort()中参数小于0，a b顺序不变，升序排列
+        }
+      }
+
+      data.sort(compare);
+      return data;
+    }
+    /*
+    *numbertoText
+    *输入数字，输出对应的文本
+    *将数字1，2，3转换成文本一，二，三
+    */
+function numbertoText(num){
+var N=[ "零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+ return N[num];
+}
+    /**
+     * render
+     * 将排好序的城市及空气质量指数，输出显示到id位resort的列表中
+     * 格式见ul中的注释的部分
+     */
+    function render(data) {
+    var ul=document.getElementById("resort");
+    for(var i=0;i<data.length;i++)
+    {
+    var li=document.createElement("li");
+    var text=document.createTextNode("第"+numbertoText(i+1)+"名："+data[i][0]+"空气质量：");//把123转换成一 二 三
+    var b=document.createElement("b");
+    var bText=document.createTextNode(data[i][1]);
+    b.appendChild(bText);
+
+    li.appendChild(text);
+    li.appendChild(b);
+    ul.appendChild(li);
+    }
+ 
+    }
+
+    function btnHandle() {
+      var aqiData = getData();
+      aqiData = sortAqiData(aqiData);
+      render(aqiData);
+    }
+
+    function init() {
+
+      // 在这下面给sort-btn绑定一个点击事件，点击时触发btnHandle函数
+      var btn=document.getElementById("sort-btn");
+      btn.addEventListener("click",btnHandle);
+    }
+(
+function (){
+  init();
+}
+)();
+  </script>
+</body>
+
+</html>
